@@ -8,11 +8,21 @@ import { BookComponent } from './book/book.component';
 import { CategoryComponent } from './category/category.component';
 import { AddNewIssueBookComponent } from './add-new-issue-book/add-new-issue-book.component';
 import { SigninComponent } from './signin/signin.component';
+import { NotFoundComponent } from './not-found/not-found.component';
+import { ForbiddenComponent } from './forbidden/forbidden.component';
 
 const routes: Routes = [
   {
     path: 'signin',
     component: SigninComponent
+  },
+  {
+    path: '404',
+    component: NotFoundComponent
+  },
+  {
+    path: '403',
+    component: ForbiddenComponent
   },
   {
     path: '',
