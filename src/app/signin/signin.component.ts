@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AuthService } from '../auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-signin',
@@ -13,16 +15,17 @@ export class SigninComponent {
   errMsg: string[] = [];
   loginForm!: FormGroup;
 
+  constructor(private authService: AuthService, private router: Router) {}
+
   ngOnInit() {
     this.buildForm();
   }
 
   buildForm() {
     this.loginForm = new FormGroup({
-      username: new FormControl('', [Validators.required, Validators.pattern(/^[\w\s]+$/)]),
+      username: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)]),
       password: new FormControl('', [
-        Validators.required,
-        Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{5,}')
+        Validators.required
       ])
     });
   }
@@ -38,9 +41,18 @@ export class SigninComponent {
       }
     } else {
       this.errMsg = [];
-      console.log(this.loginForm.value);
-      this.loginForm.reset();
-      alert('Login Successfully');
+      const { username, password } = this.loginForm.value;
+      this.authService.signIn(username, password).subscribe(
+        response => {
+          if (response.status === 'SUCCESS') {
+            this.authService.storeToken(response.data.token);
+            this.router.navigate(['/dashboard']); // Redirect to dashboard after successful login
+          }
+        },
+        error => {
+          this.errMsg.push('Invalid credentials or other error.');
+        }
+      );
     }
   }
 

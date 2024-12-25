@@ -10,6 +10,7 @@ import { AddNewIssueBookComponent } from './add-new-issue-book/add-new-issue-boo
 import { SigninComponent } from './signin/signin.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { ForbiddenComponent } from './forbidden/forbidden.component';
+import { AuthGuard } from './auth.guard';
 
 const routes: Routes = [
   {
@@ -32,30 +33,37 @@ const routes: Routes = [
   {
     path: '',
     component: LayoutComponent,
+    canActivate: [AuthGuard],
     children: [
       {
         path: 'dashboard',
-        component: HomeComponent
+        component: HomeComponent,
+        data: { roles: ['ROLE_ADMIN'] }
       },
       {
         path: 'issued_book',
-        component: IssuedBookComponent
+        component: IssuedBookComponent,
+        data: { roles: ['ROLE_ADMIN'] }
       },
       {
         path: 'add_new_issue_book',
-        component: AddNewIssueBookComponent
+        component: AddNewIssueBookComponent,
+        data: { roles: ['ROLE_ADMIN'] }
       },
       {
         path: 'student',
-        component: StudentComponent
+        component: StudentComponent,
+        data: { roles: ['ROLE_ADMIN'] }
       },
       {
         path: 'book',
-        component: BookComponent
+        component: BookComponent,
+        data: { roles: ['ROLE_ADMIN'] }
       },
       {
         path: 'category',
-        component: CategoryComponent
+        component: CategoryComponent,
+        data: { roles: ['ROLE_ADMIN'] }
       }
     ]
   }
