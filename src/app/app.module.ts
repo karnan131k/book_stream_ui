@@ -29,6 +29,8 @@ import { CategoryComponent } from './category/category.component';
 import { AddNewIssueBookComponent } from './add-new-issue-book/add-new-issue-book.component';
 import { SigninComponent } from './signin/signin.component';
 import { FlexLayoutModule} from '@angular/flex-layout';
+import { NotFoundComponent } from './not-found/not-found.component';
+import { ForbiddenComponent } from './forbidden/forbidden.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +46,9 @@ import { FlexLayoutModule} from '@angular/flex-layout';
     BookComponent,
     CategoryComponent,
     AddNewIssueBookComponent,
-    SigninComponent
+    SigninComponent,
+    NotFoundComponent,
+    ForbiddenComponent
   ],
   imports: [
     BrowserModule,
