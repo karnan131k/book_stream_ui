@@ -14,6 +14,8 @@ import { AuthGuard } from './auth.guard';
 import { TestComponent } from './test/test.component';
 import { AddNewBookComponent } from './add-new-book/add-new-book.component';
 import { IssueBookDetailComponent } from './issue-book-detail/issue-book-detail.component';
+import { AuthorComponent } from './author/author.component';
+import { AddNewAuthorComponent } from './add-new-author/add-new-author.component';
 
 const routes: Routes = [
   {
@@ -34,17 +36,22 @@ const routes: Routes = [
   },
   {
     path: '',
-    pathMatch: 'full',
-    redirectTo: 'dashboard'
-  },
-  {
-    path: '',
     component: LayoutComponent,
     canActivate: [AuthGuard],
     children: [
       {
-        path: 'dashboard',
-        component: HomeComponent,
+        path: 'author',
+        component: AuthorComponent,
+        data: { roles: ['ROLE_ADMIN'] }
+      },
+      {
+        path: 'add_new_author',
+        component: AddNewAuthorComponent,
+        data: { roles: ['ROLE_ADMIN'] }
+      },
+      {
+        path: 'edit-author/:id',
+        component: AddNewAuthorComponent,
         data: { roles: ['ROLE_ADMIN'] }
       },
       {

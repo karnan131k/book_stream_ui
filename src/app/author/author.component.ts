@@ -1,22 +1,21 @@
 import { Component, ViewChild } from '@angular/core';
-import { ApiResponse, apiUrl, Book } from '../menu.model';
+import { ApiResponse, apiUrl, Author } from '../menu.model';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { BookStreamService } from '../book-stream.service';
-import { FormControl } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
-  selector: 'app-book',
+  selector: 'app-author',
   standalone: false,
   
-  templateUrl: './book.component.html',
-  styleUrl: './book.component.css'
+  templateUrl: './author.component.html',
+  styleUrl: './author.component.css'
 })
-export class BookComponent {
+export class AuthorComponent {
 
-  displayedColumns: string[] = ['id', 'title', 'stockCount', 'categoryName', 'authorName',  'actions'];
-  dataSource = new MatTableDataSource<Book>([]);
+  displayedColumns: string[] = ['id', 'name', 'actions'];
+  dataSource = new MatTableDataSource<Author>([]);
   
   @ViewChild(MatPaginator)
   paginator!: MatPaginator; // Add a reference to the paginator
@@ -31,25 +30,17 @@ export class BookComponent {
 
   ngOnInit(): void {
 
-    this.service.getBooks().subscribe((response: ApiResponse<Book[]>) => {
+    this.service.getAuthors().subscribe((response: ApiResponse<Author[]>) => {
       if (response && response.data) {
         this.dataSource = new MatTableDataSource(response.data);
         this.dataSource.paginator = this.paginator; // Link paginator
-        // this.dataSource.filterPredicate = (data: Book, filter: string): boolean => {
-        //   const searchString = filter.trim().toLowerCase();
-        //   return (
-        //     data.title?.toLowerCase().includes(searchString) ||
-        //     data.category?.name?.toLowerCase().includes(searchString) ||
-        //     data.author?.name?.toLowerCase().includes(searchString)
-        //   );
-        // };
       }
     });
   }
 
   // Fetch the issued books data from API
-  getBooks(): void {
-    this.service.getBooks().subscribe(response => {
+  getAuthors(): void {
+    this.service.getAuthors().subscribe(response => {
       if (response.status === 'SUCCESS' && response.data) {
         this.dataSource.data = response.data;
         console.log(this.dataSource)
@@ -66,12 +57,11 @@ export class BookComponent {
       this.dataSource.paginator.firstPage();
     }
   }
-
-  deleteBook(id: number): void{
-    this.service.deleteBookDetail(id).subscribe((response)=>{
+  deleteAuthor(id: number): void{
+    this.service.deleteAuthorDetail(id).subscribe((response)=>{
       if (response.status === 'SUCCESS') {
-        this.snackBar.open('Book deleted successfully!', 'Close', { duration: 3000 });
-        this.getBooks();
+        this.snackBar.open('Author deleted successfully!', 'Close', { duration: 3000 });
+        this.getAuthors();
       }
     })
   }

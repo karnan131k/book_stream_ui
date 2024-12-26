@@ -47,6 +47,8 @@ import { AddNewStudentComponent } from './add-new-student/add-new-student.compon
 import { MAT_DATE_LOCALE, MatNativeDateModule } from "@angular/material/core";
 import { MatSelectModule } from "@angular/material/select";
 import { IssueBookDetailComponent } from './issue-book-detail/issue-book-detail.component';
+import { AuthorComponent } from './author/author.component';
+import { AddNewAuthorComponent } from './add-new-author/add-new-author.component';
 
 @NgModule({
   declarations: [
@@ -69,7 +71,9 @@ import { IssueBookDetailComponent } from './issue-book-detail/issue-book-detail.
     AddNewBookComponent,
     AddNewCategoryComponent,
     AddNewStudentComponent,
-    IssueBookDetailComponent
+    IssueBookDetailComponent,
+    AuthorComponent,
+    AddNewAuthorComponent
   ],
   imports: [
     CommonModule,

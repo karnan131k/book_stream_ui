@@ -10,7 +10,7 @@
     </div>
   
     <ng-content >
-      <button mat-flat-button  routerLink="/add_new_student" color="primary" routerLinkActive="active">Add New Student</button>
+      <button mat-flat-button  routerLink="/add_new_author" color="primary" routerLinkActive="active">Add New Author</button>
     </ng-content>
   </div>
   
@@ -25,53 +25,36 @@
   
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
   
-      <!-- Student ID Column -->
-      <ng-container matColumnDef="studentId">
-        <th mat-header-cell *matHeaderCellDef> Student ID </th>
-        <td mat-cell *matCellDef="let element"> {{element.studentId}} </td>
+      <!-- ID Column -->
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef> ID </th>
+        <td mat-cell *matCellDef="let element"> {{element.id}} </td>
       </ng-container>
   
-      <!-- Student Name Column -->
-      <ng-container matColumnDef="studentName">
-        <th mat-header-cell *matHeaderCellDef> Student Name </th>
+      <!-- Name Column -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Author Name </th>
         <td mat-cell *matCellDef="let element">
           <div class="name-cell">
             <img class="profile-thumbnail" [src]="basePath + element.imagePath" alt="Profile" />
             <span>{{ element.name }}</span>
           </div>
         </td>
-        <!-- <td mat-cell *matCellDef="let element"> {{element.student?.name}} </td> -->
-      </ng-container>
-  
-      <!-- Email Column -->
-      <ng-container matColumnDef="email">
-        <th mat-header-cell *matHeaderCellDef> Email </th>
-        <td mat-cell *matCellDef="let element"> {{element.email}} </td>
-      </ng-container>
-  
-      <!-- Mobile Column -->
-      <ng-container matColumnDef="mobile">
-        <th mat-header-cell *matHeaderCellDef> Mobile </th>
-        <td mat-cell *matCellDef="let element"> {{element.mobile}} </td>
       </ng-container>
   
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef> Actions </th>
         <td mat-cell *matCellDef="let element">
             <div style="display: flex; gap: 8px; align-items: center;">
-              <!-- View Icon -->
-              <button mat-icon-button  [routerLink]="['/employee/view', element.id]">
-                <mat-icon color="primary" style="color: blue;">visibility</mat-icon>
-              </button>
-        
+                      
               <!-- Edit Icon -->
-              <button mat-icon-button  [routerLink]="['/employee/edit', element.id]" >
+              <button mat-icon-button  [routerLink]="['/edit-author', element.id]" >
                 <mat-icon color="accent" style="color: rgb(128, 83, 0);">edit</mat-icon>
               </button>
         
               <!-- Delete Icon -->
               <button mat-icon-button>
-                <mat-icon color="warn" style="color: red;" (click)="deleteStudent(element.id)">delete</mat-icon>
+                <mat-icon color="warn" style="color: red;" (click)="deleteAuthor(element.id)">delete</mat-icon>
               </button>
             </div>
           </td>
