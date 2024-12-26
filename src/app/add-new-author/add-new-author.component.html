@@ -1,1 +1,30 @@
-<p>add-new-author works!</p>
+
+<div class="container">
+    <mat-card>
+      <mat-card-title>{{ isEditMode ? 'Edit Author' : 'Add Author' }}</mat-card-title>
+      <form [formGroup]="authorForm" (ngSubmit)="onSubmit()">
+        <mat-form-field appearance="fill">
+          <mat-label>Author Name</mat-label>
+          <input matInput formControlName="name" placeholder="Enter author name" />
+          <mat-error *ngIf="authorForm.get('name')?.invalid">Name is required</mat-error>
+        </mat-form-field>
+  
+        <div class="image-section">
+          <div *ngIf="previewImage">
+            <img [src]="basePath + previewImage" alt="Preview" class="preview-image" />
+            <button mat-raised-button color="warn" type="button" (click)="removeImage()">Remove Image</button>
+          </div>
+          <div *ngIf="!previewImage">
+            <input type="file" (change)="onFileSelect($event)" accept="image/*" />
+            <mat-error *ngIf="imageError">{{ imageError }}</mat-error>
+          </div>
+        </div>
+  
+        <div class="form-actions">
+          <button mat-raised-button color="primary" type="submit" [disabled]="authorForm.invalid">Save</button>
+          <button mat-raised-button type="button" (click)="resetForm()">Reset</button>
+        </div>
+      </form>
+    </mat-card>
+  </div>
+  
