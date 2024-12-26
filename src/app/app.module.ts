@@ -38,6 +38,8 @@ import { AuthInterceptor } from "./auth.interceptor";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { MatSort, MatSortModule } from "@angular/material/sort";
+import { TestComponent } from './test/test.component';
+import { MatInputModule } from "@angular/material/input";
 
 @NgModule({
   declarations: [
@@ -55,7 +57,8 @@ import { MatSort, MatSortModule } from "@angular/material/sort";
     AddNewIssueBookComponent,
     SigninComponent,
     NotFoundComponent,
-    ForbiddenComponent
+    ForbiddenComponent,
+    TestComponent
   ],
   imports: [
     CommonModule,
@@ -70,18 +73,16 @@ import { MatSort, MatSortModule } from "@angular/material/sort";
     MatButtonModule,
     BrowserAnimationsModule,
     MatIconModule,
-    MatIconModule,
     MatToolbarModule,
     MatSidenavModule,
     MatListModule,
     MatCardModule,
     MatProgressSpinnerModule,
-    MatIconModule,
     MatMenuModule,
     FlexLayoutModule,
     MatSort,
     MatSortModule,
-    MatIconModule,
+    MatInputModule
     
   ],
   providers: [

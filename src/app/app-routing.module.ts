@@ -11,8 +11,13 @@ import { SigninComponent } from './signin/signin.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { ForbiddenComponent } from './forbidden/forbidden.component';
 import { AuthGuard } from './auth.guard';
+import { TestComponent } from './test/test.component';
 
 const routes: Routes = [
+  {
+    path: 'test',
+    component: TestComponent
+  },
   {
     path: 'signin',
     component: SigninComponent
