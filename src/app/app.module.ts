@@ -40,6 +40,9 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { MatSort, MatSortModule } from "@angular/material/sort";
 import { TestComponent } from './test/test.component';
 import { MatInputModule } from "@angular/material/input";
+import { AddNewBookComponent } from './add-new-book/add-new-book.component';
+import { AddNewCategoryComponent } from './add-new-category/add-new-category.component';
+import { AddNewStudentComponent } from './add-new-student/add-new-student.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +61,10 @@ import { MatInputModule } from "@angular/material/input";
     SigninComponent,
     NotFoundComponent,
     ForbiddenComponent,
-    TestComponent
+    TestComponent,
+    AddNewBookComponent,
+    AddNewCategoryComponent,
+    AddNewStudentComponent
   ],
   imports: [
     CommonModule,

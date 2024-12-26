@@ -12,6 +12,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { ForbiddenComponent } from './forbidden/forbidden.component';
 import { AuthGuard } from './auth.guard';
 import { TestComponent } from './test/test.component';
+import { AddNewBookComponent } from './add-new-book/add-new-book.component';
 
 const routes: Routes = [
   {
@@ -61,15 +62,30 @@ const routes: Routes = [
         data: { roles: ['ROLE_ADMIN'] }
       },
       {
+        path: 'add_new_student',
+        component: AddNewBookComponent,
+        data: { roles: ['ROLE_ADMIN'] }
+      },
+      {
         path: 'book',
         component: BookComponent,
+        data: { roles: ['ROLE_ADMIN'] }
+      },
+      {
+        path: 'add_new_book',
+        component: AddNewBookComponent,
         data: { roles: ['ROLE_ADMIN'] }
       },
       {
         path: 'category',
         component: CategoryComponent,
         data: { roles: ['ROLE_ADMIN'] }
-      }
+      },
+      {
+        path: 'add_new_category',
+        component: AddNewBookComponent,
+        data: { roles: ['ROLE_ADMIN'] }
+      },
     ]
   }
 ];
