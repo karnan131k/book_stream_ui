@@ -79,7 +79,7 @@ export class AddNewStudentComponent {
       };
       reader.readAsDataURL(file);
 
-      this.studentService.uploadImage(file, 'students').subscribe({
+      this.studentService.uploadImage(file, 'student').subscribe({
         next: (response) => {
           console.log(response.data)
           this.uploadedImagePath = response.data;

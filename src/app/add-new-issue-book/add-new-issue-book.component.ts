@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { filter, map, Observable } from 'rxjs';
-import { ApiResponse, Book, IssuedBookRequestDTO, Student } from '../menu.model';
+import { ApiResponse, apiUrl, Book, IssuedBookRequestDTO, Student } from '../menu.model';
 import { BookStreamService } from '../book-stream.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -20,6 +20,7 @@ export class AddNewIssueBookComponent {
   students$!: Observable<Student[]>;
   isEditMode: boolean = false; // Flag to check if we are in edit mode
   issuedBookId: number | null = null; // Store the ID for editing
+  basePath: string = apiUrl;
 
   constructor(
     private fb: FormBuilder,
@@ -98,7 +99,7 @@ export class AddNewIssueBookComponent {
         next: (response) => {
           if (response.status === 'SUCCESS') {
             this.snackBar.open('Issued book updated successfully!', 'Close', { duration: 3000 });
-            this.router.navigate(['/some-route']); // Navigate to a different route if needed
+            //this.router.navigate(['/some-route']); // Navigate to a different route if needed
           }
         },
         error: () => {

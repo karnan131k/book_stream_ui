@@ -60,7 +60,7 @@ export class AddNewAuthorComponent {
   onFileSelect(event: any) {
     const file = event.target.files[0];
     if (file) {
-      const folderName = 'authors';
+      const folderName = 'author';
       this.authorService.uploadImage(file, folderName).subscribe(
         response => {
           this.previewImage = response.data!;
@@ -76,7 +76,7 @@ export class AddNewAuthorComponent {
 
   removeImage() {
     if (this.previewImage) {
-      const folderName = 'authors';
+      const folderName = 'author';
       const imageName = this.previewImage.split('/').pop()?.split('.')[0];
       this.authorService.deleteImage(folderName, imageName!).subscribe(() => {
         this.previewImage = null;

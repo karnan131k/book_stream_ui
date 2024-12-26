@@ -86,7 +86,7 @@ export class AddNewBookComponent {
       const imageName = imageNameWithExtension.split('.').slice(0, -1).join('.'); // Remove the extension
   
       if (this.isEditMode) {
-        this.apiService.deleteImage('books', imageName).subscribe(() => {
+        this.apiService.deleteImage('book', imageName).subscribe(() => {
           this.imagePreview = null;
           this.selectedImage = null;
         });
@@ -110,7 +110,7 @@ export class AddNewBookComponent {
     const payload = { ...this.bookForm.value };
 
     if (this.selectedImage) {
-      this.apiService.uploadImage(this.selectedImage, 'books').subscribe((res) => {
+      this.apiService.uploadImage(this.selectedImage, 'book').subscribe((res) => {
         payload.imagePath = res.data;
 
         this.saveOrUpdate(payload);

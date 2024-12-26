@@ -62,7 +62,7 @@ export class AddNewCategoryComponent {
   onImageUpload(event: any): void {
     const file = event.target.files[0];
     if (file) {
-      this.apiService.uploadImage(file, 'categories').subscribe((response) => {
+      this.apiService.uploadImage(file, 'category').subscribe((response) => {
         if (response.status === 'SUCCESS' && response.data) {
           this.imagePreview = response.data;
           this.categoryForm.patchValue({ imagePath: response.data });
