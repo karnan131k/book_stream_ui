@@ -1,0 +1,53 @@
+<div class="card-container">
+    <div class="card">
+      <!-- Header -->
+      <div class="card-header text-center">
+        <h3 class="card-title">Issued Book Details</h3>
+      </div>
+  
+      <!-- Body -->
+      <div class="card-body">
+        <div class="row align-items-center">
+          <!-- Book Image -->
+          <div class="col-md-3 text-center">
+            <img
+              [src]="basePath + issuedBook?.data?.book?.imagePath"
+              alt="Book Image"
+              class="img-fluid book-image"
+            />
+          </div>
+  
+          <!-- Book and Issue Details -->
+          <div class="col-md-9">
+            <h4 class="book-title">{{ issuedBook?.data?.book?.title }}</h4>
+            <p><strong>Author:</strong> {{ issuedBook?.data?.book?.author?.name }}</p>
+            <p><strong>Category:</strong> {{ issuedBook?.data?.book?.category?.name }}</p>
+            <p><strong>Issue Date:</strong> {{ issuedBook?.data?.issueDate }}</p>
+            <p><strong>Duration:</strong> {{ issuedBook?.data?.duration }} days</p>
+            <p><strong>Stock Count:</strong> {{ issuedBook?.data?.book?.stockCount }}</p>
+          </div>
+        </div>
+  
+        <hr />
+  
+        <!-- Student Details -->
+        <h4 class="section-title">Issued To:</h4>
+        <div class="row align-items-center">
+          <div class="col-md-3 text-center">
+            <img
+              [src]="basePath + issuedBook?.data?.student?.imagePath"
+              alt="Student Image"
+              class="img-fluid student-image"
+            />
+          </div>
+          <div class="col-md-9">
+            <p><strong>Name:</strong> {{ issuedBook?.data?.student?.name }}</p>
+            <p><strong>Student ID:</strong> {{ issuedBook?.data?.student?.studentId }}</p>
+            <p><strong>Email:</strong> {{ issuedBook?.data?.student?.email }}</p>
+            <p><strong>Mobile:</strong> {{ issuedBook?.data?.student?.mobile }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

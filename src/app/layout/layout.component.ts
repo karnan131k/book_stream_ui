@@ -19,12 +19,6 @@ export class LayoutComponent {
 
   menu: Menu = [
     {
-      title: 'Dashboard',
-      icon: 'home',
-      link: '/dashboard',
-      color: '#ff7f0e',
-    },
-    {
       title: 'Issued Book',
       icon: 'description',
       link: '/issued_book',
@@ -46,6 +40,12 @@ export class LayoutComponent {
       title: 'Category',
       icon: 'category',
       link: '/category',
+      color: '#ff7f0e',
+    },
+    {
+      title: 'Author',
+      icon: 'perm_identity',
+      link: '/author',
       color: '#ff7f0e',
     }
   ];
