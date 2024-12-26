@@ -1,1 +1,50 @@
-<p>add-new-student works!</p>
+<div class="form-container">
+    <h2>{{ isEditMode ? 'Edit Student' : 'Add Student' }}</h2>
+    <form [formGroup]="studentForm" (ngSubmit)="saveStudent()">
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input id="name" formControlName="name" type="text" />
+        <div class="error" *ngIf="studentForm.get('name')?.invalid && studentForm.get('name')?.touched">
+          Name is required and must be at least 3 characters long.
+        </div>
+      </div>
+  
+      <div class="form-group">
+        <label for="studentId">Student ID</label>
+        <input id="studentId" formControlName="studentId" type="text" readonly />
+      </div>
+  
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input id="email" formControlName="email" type="email" />
+        <div class="error" *ngIf="studentForm.get('email')?.invalid && studentForm.get('email')?.touched">
+          Valid email is required.
+        </div>
+      </div>
+  
+      <div class="form-group">
+        <label for="mobile">Mobile</label>
+        <input id="mobile" formControlName="mobile" type="text" />
+        <div class="error" *ngIf="studentForm.get('mobile')?.invalid && studentForm.get('mobile')?.touched">
+          Valid 10-digit mobile number is required.
+        </div>
+      </div>
+  
+      <div class="form-group">
+        <label for="image">Upload Image</label>
+        <input id="image" type="file" (change)="uploadImage($event)" />
+        <div class="image-preview" *ngIf="imagePreviewUrl">
+            <img [src]="imagePreviewUrl" alt="Student Image" class="image-preview-img" />
+            <button type="button" (click)="deleteImage()" class="delete-btn">Remove</button>
+          </div>
+      </div>
+  
+      <div class="button-group">
+        <button type="submit" [disabled]="studentForm.invalid">
+          {{ isEditMode ? 'Update' : 'Save' }}
+        </button>
+        <button type="button" (click)="resetForm()">Reset</button>
+      </div>
+    </form>
+  </div>
+  

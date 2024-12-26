@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ApiResponse, apiUrl, Author, Book, Category, IssuedBook, IssuedBookRequestDTO, Student } from './menu.model';
+import { ApiResponse, apiUrl, Author, AuthorRequestDTO, Book, BookRequestDTO, Category, CategoryRequestDTO, IssuedBook, IssuedBookRequestDTO, Student } from './menu.model';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
@@ -58,7 +58,7 @@ export class BookStreamService {
     return this.http.get<ApiResponse<Author>>(`${this.apiUrl}/api/authors/${id}`);
   }
 
-  updateAuthorDetail(payload: any, id: number): Observable<ApiResponse<Author>> {
+  updateAuthorDetail(payload: any, id: number): Observable<ApiResponse<AuthorRequestDTO>> {
     return this.http.put<ApiResponse<Author>>(`${this.apiUrl}/api/authors/${id}`, payload);
   }
 
@@ -66,7 +66,7 @@ export class BookStreamService {
     return this.http.delete<ApiResponse<Author>>(`${this.apiUrl}/api/authors/${id}`);
   }
 
-  createAuthorDetail(payload: any): Observable<ApiResponse<Author>> {
+  createAuthorDetail(payload: any): Observable<ApiResponse<AuthorRequestDTO>> {
     return this.http.post<ApiResponse<Author>>(`${this.apiUrl}/api/authors`, payload);
   }
 
@@ -79,7 +79,7 @@ export class BookStreamService {
     return this.http.get<ApiResponse<Category>>(`${this.apiUrl}/api/categories/${id}`);
   }
 
-  updateCategoryDetail(payload: any, id: number): Observable<ApiResponse<Category>> {
+  updateCategoryDetail(payload: any, id: number): Observable<ApiResponse<CategoryRequestDTO>> {
     return this.http.put<ApiResponse<Category>>(`${this.apiUrl}/api/categories/${id}`, payload);
   }
 
@@ -87,7 +87,7 @@ export class BookStreamService {
     return this.http.delete<ApiResponse<Category>>(`${this.apiUrl}/api/categories/${id}`);
   }
 
-  createCategoryDetail(payload: any): Observable<ApiResponse<Category>> {
+  createCategoryDetail(payload: any): Observable<ApiResponse<CategoryRequestDTO>> {
     return this.http.post<ApiResponse<Category>>(`${this.apiUrl}/api/categories`, payload);
   }
 
@@ -100,16 +100,16 @@ export class BookStreamService {
     return this.http.get<ApiResponse<Book>>(`${this.apiUrl}/api/books/${id}`);
   }
 
-  updateBookDetail(payload: any, id: number): Observable<ApiResponse<Book>> {
-    return this.http.put<ApiResponse<Book>>(`${this.apiUrl}/api/books/${id}`, payload);
+  updateBookDetail(payload: any, id: number): Observable<ApiResponse<BookRequestDTO>> {
+    return this.http.put<ApiResponse<any>>(`${this.apiUrl}/api/books/${id}`, payload);
   }
 
   deleteBookDetail(id: number): Observable<ApiResponse<Book>> {
     return this.http.delete<ApiResponse<Book>>(`${this.apiUrl}/api/books/${id}`);
   }
 
-  createBookDetail(payload: any): Observable<ApiResponse<Book>> {
-    return this.http.post<ApiResponse<Book>>(`${this.apiUrl}/api/books`, payload);
+  createBookDetail(payload: any): Observable<ApiResponse<BookRequestDTO>> {
+    return this.http.post<ApiResponse<any>>(`${this.apiUrl}/api/books`, payload);
   }
 
   // student
@@ -131,6 +131,10 @@ export class BookStreamService {
 
   createStudentDetail(payload: any): Observable<ApiResponse<Student>> {
     return this.http.post<ApiResponse<Student>>(`${this.apiUrl}/api/students`, payload);
+  }
+
+  generateNextStudentId() {
+    return this.http.get<ApiResponse<string>>(`${this.apiUrl}/api/students/generateNextStudentId`);
   }
 
 }

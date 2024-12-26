@@ -16,6 +16,8 @@ import { AddNewBookComponent } from './add-new-book/add-new-book.component';
 import { IssueBookDetailComponent } from './issue-book-detail/issue-book-detail.component';
 import { AuthorComponent } from './author/author.component';
 import { AddNewAuthorComponent } from './add-new-author/add-new-author.component';
+import { AddNewStudentComponent } from './add-new-student/add-new-student.component';
+import { AddNewCategoryComponent } from './add-new-category/add-new-category.component';
 
 const routes: Routes = [
   {
@@ -80,7 +82,12 @@ const routes: Routes = [
       },
       {
         path: 'add_new_student',
-        component: AddNewBookComponent,
+        component: AddNewStudentComponent,
+        data: { roles: ['ROLE_ADMIN'] }
+      },
+      {
+        path: 'edit_student/:id',
+        component: AddNewStudentComponent,
         data: { roles: ['ROLE_ADMIN'] }
       },
       {
@@ -94,13 +101,23 @@ const routes: Routes = [
         data: { roles: ['ROLE_ADMIN'] }
       },
       {
+        path: 'edit_book/:id',
+        component: AddNewBookComponent,
+        data: { roles: ['ROLE_ADMIN'] }
+      },
+      {
         path: 'category',
         component: CategoryComponent,
         data: { roles: ['ROLE_ADMIN'] }
       },
       {
         path: 'add_new_category',
-        component: AddNewBookComponent,
+        component: AddNewCategoryComponent,
+        data: { roles: ['ROLE_ADMIN'] }
+      },
+      {
+        path: 'edit_category/:id',
+        component: AddNewCategoryComponent,
         data: { roles: ['ROLE_ADMIN'] }
       },
     ]

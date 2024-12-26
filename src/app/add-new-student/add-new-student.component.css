@@ -1,0 +1,83 @@
+.form-container {
+    max-width: 500px;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background: #f9f9f9;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  
+  input[type="text"],
+  input[type="email"],
+  input[type="file"] {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+  }
+  
+  .error {
+    color: red;
+    font-size: 0.9em;
+  }
+  
+  button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  button:disabled {
+    background-color: #ccc;
+  }
+  
+  .image-preview img {
+    max-width: 100%;
+    margin-top: 10px;
+  }
+  
+  .image-preview {
+    position: relative;
+    display: inline-block;
+    text-align: center;
+  }
+  
+  .image-preview-img {
+    max-width: 150px;  /* Limit the width of the image */
+    max-height: 150px; /* Limit the height of the image */
+    object-fit: cover; /* Ensure the image is not stretched and fits within the container */
+    border-radius: 8px; /* Optional: add rounded corners for the image */
+    margin-bottom: 10px; /* Optional: space between image and button */
+  }
+  
+  .delete-btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: rgba(255, 0, 0, 0.7);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 14px;
+    display: inline-block;
+  }
+  
+  .delete-btn:hover {
+    background-color: red; /* Change to a solid color when hovering */
+  }
+  
+  

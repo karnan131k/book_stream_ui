@@ -1,0 +1,31 @@
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .form-card {
+    padding: 20px;
+  }
+  
+  .full-width {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  
+  .image-upload {
+    margin-bottom: 20px;
+  }
+  
+  .image-preview {
+    display: block;
+    max-width: 100%;
+    max-height: 200px;
+    margin: 10px 0;
+  }
+  
+  .actions {
+    display: flex;
+    justify-content: space-between;
+  }
+  
