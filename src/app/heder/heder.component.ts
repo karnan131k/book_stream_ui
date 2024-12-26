@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Output } from '@angular/core';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-header',
@@ -13,10 +14,11 @@ export class HeaderComponent {
 
   user: string = 'Admin';
 
-  // constructor(private authService: AuthService) { }
+   constructor(private authService: AuthService) { }
 
   logout(): void {
     console.log('Logged out');
+    this.authService.logout();
   }
 
 }

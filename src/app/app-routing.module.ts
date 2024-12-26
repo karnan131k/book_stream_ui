@@ -20,10 +20,7 @@ import { AddNewStudentComponent } from './add-new-student/add-new-student.compon
 import { AddNewCategoryComponent } from './add-new-category/add-new-category.component';
 
 const routes: Routes = [
-  {
-    path: 'test',
-    component: TestComponent
-  },
+  { path: '', redirectTo: '/issued_book', pathMatch: 'full' },
   {
     path: 'signin',
     component: SigninComponent
@@ -121,7 +118,10 @@ const routes: Routes = [
         data: { roles: ['ROLE_ADMIN'] }
       },
     ]
-  }
+  },
+  { path: '**', 
+    redirectTo: '/404'
+  },
 ];
 
 @NgModule({

@@ -1,0 +1,30 @@
+.not-found-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+    background-color: #f4f4f4;
+  }
+  
+  mat-card {
+    padding: 20px;
+    width: 400px;
+  }
+  
+  mat-card-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  mat-card-content p {
+    font-size: 16px;
+    margin-bottom: 20px;
+  }
+  
+  mat-card-actions {
+    display: flex;
+    justify-content: center;
+  }
+  
