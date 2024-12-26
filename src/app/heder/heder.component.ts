@@ -11,7 +11,7 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Output } from '@angul
 export class HeaderComponent {
   @Output() menuToggled = new EventEmitter<boolean>();
 
-  user: string = 'Enea';
+  user: string = 'Admin';
 
   // constructor(private authService: AuthService) { }
 

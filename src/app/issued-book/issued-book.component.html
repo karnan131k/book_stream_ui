@@ -1,4 +1,23 @@
-<div style="padding: 20px 20px">
+<div class="feature-header justify-content-between align-items-center">
+  <div class="start">
+    <div class="title">
+      <mat-icon  class="feature-icon mr-3">
+        text
+      </mat-icon>
+      <ng-content></ng-content>
+    </div>
+    <ng-content ></ng-content>
+  </div>
+
+  <ng-content >
+    <button mat-flat-button  routerLink="/add_new_issue_book" color="primary" routerLinkActive="active">Add New Employee</button>
+  </ng-content>
+</div>
+
+<div>
+
+  
+  
   <mat-form-field>
     <mat-label>Filter</mat-label>
     <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
