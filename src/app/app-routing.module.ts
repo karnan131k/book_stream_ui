@@ -13,6 +13,7 @@ import { ForbiddenComponent } from './forbidden/forbidden.component';
 import { AuthGuard } from './auth.guard';
 import { TestComponent } from './test/test.component';
 import { AddNewBookComponent } from './add-new-book/add-new-book.component';
+import { IssueBookDetailComponent } from './issue-book-detail/issue-book-detail.component';
 
 const routes: Routes = [
   {
@@ -54,6 +55,15 @@ const routes: Routes = [
       {
         path: 'add_new_issue_book',
         component: AddNewIssueBookComponent,
+        data: { roles: ['ROLE_ADMIN'] }
+      },
+      { 
+        path: 'edit-issue-book/:id', 
+        component: AddNewIssueBookComponent,
+        data: { roles: ['ROLE_ADMIN'] }
+      }, 
+      { path: 'view-issued-book/:id', 
+        component: IssueBookDetailComponent,
         data: { roles: ['ROLE_ADMIN'] }
       },
       {

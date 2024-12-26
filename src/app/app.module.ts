@@ -31,6 +31,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { MatMenuModule } from '@angular/material/menu';
+import {MatDatepickerModule} from '@angular/material/datepicker';
 
 import { FlexLayoutModule } from '@angular/flex-layout';
 
@@ -43,6 +44,9 @@ import { MatInputModule } from "@angular/material/input";
 import { AddNewBookComponent } from './add-new-book/add-new-book.component';
 import { AddNewCategoryComponent } from './add-new-category/add-new-category.component';
 import { AddNewStudentComponent } from './add-new-student/add-new-student.component';
+import { MAT_DATE_LOCALE, MatNativeDateModule } from "@angular/material/core";
+import { MatSelectModule } from "@angular/material/select";
+import { IssueBookDetailComponent } from './issue-book-detail/issue-book-detail.component';
 
 @NgModule({
   declarations: [
@@ -64,7 +68,8 @@ import { AddNewStudentComponent } from './add-new-student/add-new-student.compon
     TestComponent,
     AddNewBookComponent,
     AddNewCategoryComponent,
-    AddNewStudentComponent
+    AddNewStudentComponent,
+    IssueBookDetailComponent
   ],
   imports: [
     CommonModule,
@@ -88,12 +93,16 @@ import { AddNewStudentComponent } from './add-new-student/add-new-student.compon
     FlexLayoutModule,
     MatSort,
     MatSortModule,
-    MatInputModule
+    MatInputModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatSelectModule
     
   ],
   providers: [
     provideAnimationsAsync(),
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    { provide: MAT_DATE_LOCALE, useValue: 'en-GB' } // Example: Set locale to British English
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

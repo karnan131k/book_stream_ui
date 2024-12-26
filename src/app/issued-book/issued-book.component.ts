@@ -4,6 +4,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { BookStreamService } from '../book-stream.service';
 import { FormControl } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-issued-book',
@@ -22,7 +23,7 @@ export class IssuedBookComponent {
 
   basePath: string = apiUrl;
 
-  constructor(private service: BookStreamService) {}
+  constructor(private service: BookStreamService, private snackBar: MatSnackBar,) {}
 
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
@@ -68,5 +69,14 @@ export class IssuedBookComponent {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+  }
+
+  deleteIssuedBook(id: number): void{
+    this.service.deleteIssuedBookDetail(id).subscribe((response)=>{
+      if (response.status === 'SUCCESS') {
+        this.snackBar.open('Issued book deleted successfully!', 'Close', { duration: 3000 });
+        this.getIssuedBooks();
+      }
+    })
   }
 }

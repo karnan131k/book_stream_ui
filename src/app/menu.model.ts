@@ -79,3 +79,42 @@ export interface MenuItem {
     mobile: string;
     issuedBooks?: IssuedBook[]; // Optional property with a list of IssuedBook
   }  
+
+  // AuthorRequestDTO
+export interface AuthorRequestDTO {
+  name: string;
+  imagePath: string;
+}
+
+// BookRequestDTO
+export interface BookRequestDTO {
+  title: string;
+  imagePath: string;
+  stockCount: number;
+  categoryId: number; // Assuming Long is mapped to number in TypeScript
+  authorId: number;
+}
+
+// CategoryRequestDTO
+export interface CategoryRequestDTO {
+  name: string;
+  imagePath: string;
+}
+
+// IssuedBookRequestDTO
+export interface IssuedBookRequestDTO {
+  count: number;
+  duration: number;
+  issueDate: string; // ISO 8601 date format (e.g., "2023-12-25")
+  bookId: number;
+  studentId: number;
+}
+
+// StudentRequestDTO
+export interface StudentRequestDTO {
+  name: string;
+  studentId: string;
+  imagePath: string;
+  email: string;
+  mobile: string;
+}

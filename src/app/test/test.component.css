@@ -1,0 +1,55 @@
+table {
+    width: 100%;
+  }
+  
+  .mat-mdc-form-field {
+    font-size: 14px;
+    width: 100%;
+  }
+  
+  td, th {
+    width: -1%;
+  }
+    
+    /* employee.component.css */
+    .view-icon {
+      color: blue; /* Customize the view icon color */
+    }
+    
+    .edit-icon {
+      color: rgb(128, 75, 0); /* Customize the edit icon color */
+    }
+    
+    .delete-icon {
+      color: red; /* Customize the delete icon color */
+    }
+    
+    .status-badge {
+      padding: 4px 8px;
+      border-radius: 12px;
+      color: white;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+    
+    .status-badge.active {
+      background-color: #4caf50; /* Green for active */
+    }
+    
+    .status-badge.inactive {
+      background-color: #f44336; /* Red for inactive */
+    }
+    .name-cell {
+      display: flex;
+      align-items: center;
+    }
+    
+    .profile-thumbnail {
+      width: 40px; /* Adjust size as needed */
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-right: 8px; /* Space between image and name */
+      border: 2px solid #ddd; /* Optional border */
+    }
+    

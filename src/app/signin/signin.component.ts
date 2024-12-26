@@ -46,7 +46,7 @@ export class SigninComponent {
         response => {
           if (response.status === 'SUCCESS') {
             this.authService.storeToken(response.data.token);
-            this.router.navigate(['/dashboard']); // Redirect to dashboard after successful login
+            this.router.navigate(['/issued_book']); // Redirect to issued_book after successful login
           }
         },
         error => {

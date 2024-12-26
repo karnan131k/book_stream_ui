@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ApiResponse, apiUrl, Author, Book, Category, IssuedBook, Student } from './menu.model';
+import { ApiResponse, apiUrl, Author, Book, Category, IssuedBook, IssuedBookRequestDTO, Student } from './menu.model';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
@@ -45,8 +45,8 @@ export class BookStreamService {
     return this.http.delete<ApiResponse<IssuedBook>>(`${this.apiUrl}/api/issuedBooks/${id}`);
   }
 
-  createIssuedBookDetail(payload: any): Observable<ApiResponse<IssuedBook>> {
-    return this.http.post<ApiResponse<IssuedBook>>(`${this.apiUrl}/api/IssuedBooks`, payload);
+  createIssuedBookDetail(payload: any): Observable<ApiResponse<IssuedBookRequestDTO>> {
+    return this.http.post<ApiResponse<any>>(`${this.apiUrl}/api/issuedBooks`, payload);
   }
 
   // author
