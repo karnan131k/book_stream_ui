@@ -13,10 +13,10 @@ COPY . .
 RUN npm run build --prod
 
 # Stage 2: Serve the application with NGINX
-FROM nginx:1.21
+FROM nginx:latest
 
 # Copy the built application from the previous stage
-COPY --from=build-stage /app/dist/your-angular-app /usr/share/nginx/html
+COPY --from=build-stage /app/dist/book_stream_ui/browser /usr/share/nginx/html
 
 # Expose port 80
 EXPOSE 80

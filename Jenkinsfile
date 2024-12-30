@@ -2,69 +2,78 @@ pipeline {
     agent any
 
     environment {
-        REPO_URL = 'https://github.com/karnan131k/book_stream_ui.git'  // Repository URL
-        DOCKER_IMAGE_NAME = 'book-stream-image'                               // Docker image name
-        DOCKER_CONTAINER_NAME = 'book-stream-app'                                // Docker container name
-        DOCKER_CREDENTIALS_ID = 'book-stream-frontend-docker-hub-credentials'                     // Docker Hub credentials ID
-        PORT = '80'                                                          // Exposed port
+        DOCKER_CONTAINER_NAME = 'book-stream-frontend-app'                      // Docker container name
+        DOCKER_HUB_CREDENTIALS = 'book-stream-frontend-docker-hub-credentials' // Docker Hub credentials ID
+        PORT = '80'                                                           // Exposed port
+        HOST_PORT = '4200'
+        VERSION = getVersion(GIT_BRANCH)  // Use GIT_BRANCH built-in Jenkins variable
+        DOCKER_IMAGE_NAME = getTagName(VERSION, BUILD_NUMBER)  // Docker image name
     }
 
     stages {
-        stage('Checkout') {
-            steps {
-                // Clone the repository
-                git REPO_URL
-            }
-        }
-
         stage('Install Dependencies') {
             steps {
                 // Install Node.js dependencies
-                sh 'npm install'
+                bat 'npm install'
             }
         }
 
         stage('Build Angular App') {
             steps {
                 // Build the Angular application
-                sh 'npm run build --prod'
+                bat 'npm run build --prod'
             }
         }
 
         stage('Build Docker Image') {
             steps {
                 // Build the Docker image
-                sh "docker build -t ${DOCKER_IMAGE_NAME} ."
+                bat "docker build -t ${DOCKER_IMAGE_NAME} ."
             }
         }
 
-        stage('Push Docker Image') {
+        stage('Push Docker Image to Docker Hub') {
             steps {
-                withCredentials([usernamePassword(credentialsId: DOCKER_CREDENTIALS_ID, usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
-                    sh """
-                    echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
-                    docker tag ${DOCKER_IMAGE_NAME} $DOCKER_USER/${DOCKER_IMAGE_NAME}:latest
-                    docker push $DOCKER_USER/${DOCKER_IMAGE_NAME}:latest
+                echo 'Pushing Docker image to Docker Hub...'
+                withCredentials([usernamePassword(credentialsId: DOCKER_HUB_CREDENTIALS, usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                    bat """
+                    docker login -u %DOCKER_USER% -p %DOCKER_PASS%
+                    docker tag ${DOCKER_IMAGE_NAME} %DOCKER_USER%/${DOCKER_IMAGE_NAME}:latest
+                    docker push %DOCKER_USER%/${DOCKER_IMAGE_NAME}:latest
                     """
                 }
             }
         }
-
         stage('Deploy') {
             steps {
-                // Stop and remove the existing container, then run a new one
-                sh """
-                docker stop ${DOCKER_CONTAINER_NAME} || true
-                docker rm ${DOCKER_CONTAINER_NAME} || true
-                docker run -d --name ${DOCKER_CONTAINER_NAME} -p ${PORT}:${PORT} ${DOCKER_IMAGE_NAME}
+                // Check if container exists, then stop and remove it
+                echo 'Deploying the Docker container...'
+                bat """
+                docker ps -a --filter "name=${DOCKER_CONTAINER_NAME}" -q | findstr . && docker stop ${DOCKER_CONTAINER_NAME} || echo 'No container to stop'
+                docker ps -a --filter "name=${DOCKER_CONTAINER_NAME}" -q | findstr . && docker rm ${DOCKER_CONTAINER_NAME} || echo 'No container to remove'
+                docker run -d --name ${DOCKER_CONTAINER_NAME} -p ${HOST_PORT}:${PORT} ${DOCKER_IMAGE_NAME}
                 """
             }
         }
     }
 
     post {
-        always {
-            cleanWs()
+        success {
+            echo 'Build and deployment successful!'
+        }
+        failure {
+            echo 'Build or deployment failed.'
         }
     }
+}
+
+
+def getVersion(String gitBranch) {
+    def parts = gitBranch.tokenize('/')
+    return parts[-1]  // Return the last part of the branch name
+}
+
+def getTagName(String version, String buildId) {
+    def tagname = version + '-' + buildId
+    return tagname  // Return the tag name
 }

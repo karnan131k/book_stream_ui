@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "dashboard": {
+    "book_stream_ui": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -23,7 +23,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/dashboard",
+            "outputPath": "dist/book_stream_ui",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -70,10 +70,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "dashboard:build:production"
+              "buildTarget": "book_stream_ui:build:production"
             },
             "development": {
-              "buildTarget": "dashboard:build:development"
+              "buildTarget": "book_stream_ui:build:development"
             }
           },
           "defaultConfiguration": "development"
