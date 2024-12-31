@@ -99,7 +99,7 @@ export class AddNewIssueBookComponent {
         next: (response) => {
           if (response.status === 'SUCCESS') {
             this.snackBar.open('Issued book updated successfully!', 'Close', { duration: 3000 });
-            //this.router.navigate(['/some-route']); // Navigate to a different route if needed
+            this.router.navigate(['/issued_book']);
           }
         },
         error: () => {

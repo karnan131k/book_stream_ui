@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BookStreamService } from '../book-stream.service';
@@ -28,6 +28,7 @@ export class AddNewBookComponent {
     private route: ActivatedRoute,
     private router: Router,
     private snackBar: MatSnackBar,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -52,7 +53,7 @@ export class AddNewBookComponent {
             categoryId: res.data.category?.id || null,
             authorId: res.data.author?.id || null,
           });
-          this.imagePreview = res.data.imagePath;
+          this.imagePreview = `${this.basePath}${res.data.imagePath}`;
         }
       });
     }
@@ -77,22 +78,51 @@ export class AddNewBookComponent {
         this.imagePreview = reader.result as string;
       };
       reader.readAsDataURL(file);
+
+      this.apiService.uploadImage(file, 'student').subscribe({
+        next: (response) => {
+          console.log(response.data)
+          //this.uploadedImagePath = response.data;
+          this.imagePreview = `${this.basePath}${response.data}`; // Full URL for rendering
+          this.bookForm.get('imagePath')?.setValue(response.data);
+          this.cdr.detectChanges();
+          //console.log(this.uploadedImagePath)
+          console.log(this.imagePreview)
+        },
+        error: (err) => console.error(err),
+      });
     }
   }
 
-  removeImage() {
+  removeImage(fileInput: HTMLInputElement): void {
     if (this.imagePreview) {
-      const imageNameWithExtension = this.imagePreview.split('/').pop() || ''; // Extract the full image name with extension
-      const imageName = imageNameWithExtension.split('.').slice(0, -1).join('.'); // Remove the extension
+      // Extract the full image name with extension
+      const imageNameWithExtension = this.imagePreview.split('/').pop() || '';
+  
+      // Remove the extension to get the image name
+      const imageName = imageNameWithExtension.split('.').slice(0, -1).join('.');
   
       if (this.isEditMode) {
-        this.apiService.deleteImage('book', imageName).subscribe(() => {
-          this.imagePreview = null;
-          this.selectedImage = null;
-        });
+        this.apiService.deleteImage('book', imageName).subscribe(
+          () => {
+            // Clear the preview and selected image
+            this.imagePreview = null;
+            this.selectedImage = null;
+  
+            // Reset the file input
+            fileInput.value = '';
+          },
+          (error) => {
+            console.error('Failed to delete image:', error);
+          }
+        );
       } else {
+        // Clear the preview and selected image in non-edit mode
         this.imagePreview = null;
         this.selectedImage = null;
+  
+        // Reset the file input
+        fileInput.value = '';
       }
     }
   }
@@ -123,12 +153,20 @@ export class AddNewBookComponent {
   saveOrUpdate(payload: BookRequestDTO) {
     if (this.isEditMode) {
       const bookId = this.route.snapshot.params['id'];
-      this.apiService.updateBookDetail(payload, bookId).subscribe(() => {
-        this.snackBar.open('book created successfully!', 'Close', { duration: 3000 });
-            this.bookForm.reset();
+      this.apiService.updateBookDetail(payload, bookId).subscribe((response) => {
+        if (response.status === 'SUCCESS') {
+          this.snackBar.open('book updated successfully!', 'Close', { duration: 3000 });
+          this.bookForm.reset();
+          this.router.navigate(['/book']);
+        }
       });
     } else {
-      this.apiService.createBookDetail(payload).subscribe(() => this.resetForm());
+      this.apiService.createBookDetail(payload).subscribe((response) => {
+        if (response.status === 'SUCCESS') {
+          this.snackBar.open('book created successfully!', 'Close', { duration: 3000 });
+          this.bookForm.reset();
+        }
+      });
     }
   }
   

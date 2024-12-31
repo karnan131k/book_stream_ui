@@ -32,15 +32,15 @@
   
       <div class="form-group">
         <label for="image">Upload Image</label>
-        <input id="image" type="file" (change)="uploadImage($event)" />
+        <input #fileInput id="image" type="file" (change)="uploadImage($event)" />
         <div class="image-preview" *ngIf="imagePreviewUrl">
             <img [src]="imagePreviewUrl" alt="Student Image" class="image-preview-img" />
-            <button type="button" (click)="deleteImage()" class="delete-btn">Remove</button>
+            <button type="button" (click)="deleteImage(fileInput)" class="delete-btn">Remove</button>
           </div>
       </div>
   
       <div class="button-group">
-        <button type="submit" [disabled]="studentForm.invalid">
+        <button type="submit" [disabled]="studentForm.invalid" style="margin-right: 10px;">
           {{ isEditMode ? 'Update' : 'Save' }}
         </button>
         <button type="button" (click)="resetForm()">Reset</button>

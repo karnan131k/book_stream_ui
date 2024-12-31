@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BookStreamService } from '../book-stream.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { apiUrl } from '../menu.model';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-add-new-student',
@@ -25,7 +26,8 @@ export class AddNewStudentComponent {
     private studentService: BookStreamService,
     private route: ActivatedRoute,
     private router: Router,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private snackBar: MatSnackBar,
   ) {}
 
   ngOnInit(): void {
@@ -96,20 +98,39 @@ export class AddNewStudentComponent {
     console.log(this.imagePreviewUrl)
   }
 
-  deleteImage(): void {
+  deleteImage(fileInput: HTMLInputElement): void {
     if (this.uploadedImagePath) {
-      // Remove the file extension (.png, .jpg, etc.) before extracting folderName and imageName
-      const imagePathWithoutExtension = this.uploadedImagePath.replace(/\.[^/.]+$/, ""); 
+      // Optimistically update the UI
+      const currentUploadedImagePath = this.uploadedImagePath; // Backup the path in case of failure
+      this.uploadedImagePath = null;
+      this.imagePreviewUrl = null;
+      this.studentForm.get('imagePath')?.setValue('');
+
+      // Reset the file input
+      fileInput.value = '';
+  
+      // Extract folderName and imageName
+      const imagePathWithoutExtension = currentUploadedImagePath.replace(/\.[^/.]+$/, "");
       const [folderName, imageName] = imagePathWithoutExtension.split('/').slice(-2);
-      
-      this.studentService.deleteImage(folderName, imageName).subscribe({
-        next: () => {
-          this.uploadedImagePath = null;
-          this.imagePreviewUrl = null;
-          this.studentForm.get('imagePath')?.setValue('');
+  
+      this.studentService.deleteImage(folderName, imageName).subscribe(
+        (response) => {
+          if (response.status !== 'SUCCESS') {
+            // Revert the UI changes if deletion fails
+            this.uploadedImagePath = currentUploadedImagePath;
+            this.imagePreviewUrl = `your-base-url/${currentUploadedImagePath}`; // Restore the preview URL
+            this.studentForm.get('imagePath')?.setValue(currentUploadedImagePath);
+            console.error('Image deletion failed');
+          }
         },
-        error: (err) => console.error(err),
-      });
+        (error) => {
+          // Handle errors (e.g., network issues)
+          this.uploadedImagePath = currentUploadedImagePath;
+          this.imagePreviewUrl = `your-base-url/${currentUploadedImagePath}`;
+          this.studentForm.get('imagePath')?.setValue(currentUploadedImagePath);
+          console.error('An error occurred while deleting the image:', error);
+        }
+      );
     }
   }
 
@@ -132,16 +153,16 @@ export class AddNewStudentComponent {
     if (this.isEditMode) {
       this.studentService.updateStudentDetail(studentData, this.studentId).subscribe({
         next: () => {
-          alert('Student updated successfully!');
+          this.snackBar.open('Student updated successfully!', 'Close', { duration: 3000 });
           this.resetForm();
-          this.router.navigate(['/students']);
+          this.router.navigate(['/student']);
         },
         error: (err) => console.error(err),
       });
     } else {
       this.studentService.createStudentDetail(studentData).subscribe({
         next: () => {
-          alert('Student created successfully!');
+          this.snackBar.open('Student created successfully!', 'Close', { duration: 3000 });
           this.resetForm();
         },
         error: (err) => console.error(err),

@@ -54,9 +54,9 @@
   
           <!-- Image Upload -->
           <div class="image-upload">
-            <input type="file" (change)="onFileSelected($event)" />
-            <img *ngIf="imagePreview" [src]="basePath + imagePreview" alt="Image Preview" class="image-preview" />
-            <button *ngIf="imagePreview" mat-button (click)="removeImage()">Remove Image</button>
+            <input  #fileInput type="file" (change)="onFileSelected($event)" />
+            <img *ngIf="imagePreview" [src]="imagePreview" alt="Image Preview" class="image-preview" />
+            <button *ngIf="imagePreview" mat-button (click)="removeImage(fileInput)" style="color: red;">Remove Image</button>
           </div>
   
           <!-- Buttons -->

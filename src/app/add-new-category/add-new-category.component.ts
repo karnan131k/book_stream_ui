@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BookStreamService } from '../book-stream.service';
@@ -26,6 +26,7 @@ export class AddNewCategoryComponent {
     private router: Router,
     private apiService: BookStreamService,
     private snackBar: MatSnackBar,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -54,32 +55,51 @@ export class AddNewCategoryComponent {
           name: response.data.name,
           imagePath: response.data.imagePath,
         });
-        this.imagePreview = response.data.imagePath;
+        this.imagePreview = this.basePath + response.data.imagePath;
       }
     });
   }
 
-  onImageUpload(event: any): void {
-    const file = event.target.files[0];
+  onImageUpload(event: Event, fileInput: HTMLInputElement): void {
+    const file = (event.target as HTMLInputElement).files?.[0];
     if (file) {
-      this.apiService.uploadImage(file, 'category').subscribe((response) => {
-        if (response.status === 'SUCCESS' && response.data) {
-          this.imagePreview = response.data;
-          this.categoryForm.patchValue({ imagePath: response.data });
+      this.apiService.uploadImage(file, 'category').subscribe(
+        (response) => {
+          if (response.status === 'SUCCESS' && response.data) {
+            this.imagePreview = `${this.basePath}${response.data}`;
+            this.categoryForm.patchValue({ imagePath: response.data });
+            console.log(this.imagePreview);
+            // Reset the file input to allow re-selection of the same file
+            fileInput.value = '';
+            this.cdr.detectChanges();
+          }
+        },
+        (error) => {
+          console.error('Image upload failed:', error);
+          // Optionally show an error message to the user
         }
-      });
+      );
     }
   }
 
-  onImageRemove(): void {
+  onImageRemove(fileInput: HTMLInputElement): void {
     if (this.imagePreview) {
-      const [folderName, imageNameWithExtension] = this.imagePreview.split('/').slice(-2); // Get folder and file name with extension
-      const imageName = imageNameWithExtension.split('.').slice(0, -1).join('.'); // Remove the extension
+      const [folderName, imageNameWithExtension] = this.imagePreview.split('/').slice(-2);
+      const imageName = imageNameWithExtension.split('.').slice(0, -1).join('.');
   
-      this.apiService.deleteImage(folderName, imageName).subscribe(() => {
-        this.imagePreview = null;
-        this.categoryForm.patchValue({ imagePath: null });
-      });
+      this.apiService.deleteImage(folderName, imageName).subscribe(
+        () => {
+          this.imagePreview = null;
+          this.categoryForm.patchValue({ imagePath: null });
+  
+          // Reset the file input
+          fileInput.value = '';
+        },
+        (error) => {
+          console.error('Image deletion failed:', error);
+          // Optionally show an error message to the user
+        }
+      );
     }
   }
   
@@ -96,6 +116,7 @@ export class AddNewCategoryComponent {
         if (response.status === 'SUCCESS') {
           this.snackBar.open('Category updated successfully!', 'Close', { duration: 3000 });
           this.resetForm();
+          this.router.navigate(['/category']);
         }
       });
     } else {
@@ -112,7 +133,7 @@ export class AddNewCategoryComponent {
     this.categoryForm.reset();
     this.imagePreview = null;
     if (!this.isEditMode) {
-      this.router.navigate(['/categories']);
+      this.router.navigate(['/add_new_category']);
     }
   }
   

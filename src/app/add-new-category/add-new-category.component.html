@@ -15,10 +15,10 @@
           <!-- Image Upload -->
           <div class="image-upload">
             <label for="fileUpload" class="image-upload-label">Upload Image</label>
-            <input id="fileUpload" type="file" (change)="onImageUpload($event)" />
-            <img *ngIf="imagePreview" [src]="basePath + imagePreview" alt="Image Preview" class="image-preview" />
-            <button *ngIf="imagePreview" mat-button color="warn" (click)="onImageRemove()">Remove Image</button>
-          </div>
+            <input #fileInput id="fileUpload" type="file" (change)="onImageUpload($event, fileInput)" />
+            <img *ngIf="imagePreview" [src]="imagePreview" alt="Image Preview" class="image-preview" />
+            <button *ngIf="imagePreview" mat-button color="warn" (click)="onImageRemove(fileInput)">Remove Image</button>
+          </div>          
   
           <!-- Buttons -->
           <div class="actions">

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BookStreamService } from '../book-stream.service';
@@ -27,6 +27,7 @@ export class AddNewAuthorComponent {
     private router: Router,
     private authorService: BookStreamService,
     private snackBar: MatSnackBar,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -52,36 +53,64 @@ export class AddNewAuthorComponent {
       const author = response.data;
       if (author) {
         this.authorForm.patchValue(author);
-        this.previewImage = author.imagePath;
+        this.previewImage = this.basePath + author.imagePath;
       }
     });
   }
 
-  onFileSelect(event: any) {
+  onFileSelect(event: any): void {
     const file = event.target.files[0];
     if (file) {
+      if (!file.type.startsWith('image/')) {
+        this.imageError = 'Please upload a valid image file.';
+        return;
+      }
+      if (file.size > 5 * 1024 * 1024) { // 5MB size limit
+        this.imageError = 'Image size must be less than 5MB.';
+        return;
+      }
+  
       const folderName = 'author';
       this.authorService.uploadImage(file, folderName).subscribe(
         response => {
-          this.previewImage = response.data!;
+          this.previewImage = `${this.basePath}${response.data!}`;
           this.authorForm.get('imagePath')?.setValue(response.data!);
           this.imageError = null;
+          event.target.value = ''; // Reset file input
+          this.cdr.detectChanges();
         },
         error => {
           this.imageError = 'Failed to upload image. Please try again.';
+          event.target.value = ''; // Reset file input
         }
       );
     }
   }
+  
 
-  removeImage() {
+  removeImage(): void {
     if (this.previewImage) {
       const folderName = 'author';
       const imageName = this.previewImage.split('/').pop()?.split('.')[0];
-      this.authorService.deleteImage(folderName, imageName!).subscribe(() => {
-        this.previewImage = null;
+  
+      if (imageName) {
+        // Optimistically update UI before the API call completes
+        const previousImage = this.previewImage;
+        this.previewImage = null; // Update the UI immediately
         this.authorForm.get('imagePath')?.reset();
-      });
+  
+        this.authorService.deleteImage(folderName, imageName).subscribe(
+          () => {
+            // Success: Do nothing as UI is already updated
+          },
+          (error) => {
+            // On error, revert to the previous state
+            this.previewImage = previousImage;
+            this.authorForm.get('imagePath')?.setValue(previousImage);
+            this.imageError = 'Failed to remove image. Please try again.';
+          }
+        );
+      }
     }
   }
 
@@ -91,7 +120,7 @@ export class AddNewAuthorComponent {
       this.authorService.updateAuthorDetail(payload, this.authorId).subscribe(() => {
         this.snackBar.open('Author updated successfully!', 'Close', { duration: 3000 });
         this.resetForm();
-        
+        this.router.navigate(['/author']);
       });
     } else {
       this.authorService.createAuthorDetail(payload).subscribe(() => {

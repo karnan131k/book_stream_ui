@@ -18,6 +18,9 @@ FROM nginx:latest
 # Copy the built application from the previous stage
 COPY --from=build-stage /app/dist/book_stream_ui/browser /usr/share/nginx/html
 
+# Copy the custom nginx configuration file to handle SPA routes
+COPY nginx.conf /etc/nginx/nginx.conf
+
 # Expose port 80
 EXPOSE 80
 

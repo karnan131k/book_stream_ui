@@ -10,8 +10,8 @@
         </mat-form-field>
   
         <div class="image-section">
-          <div *ngIf="previewImage">
-            <img [src]="basePath + previewImage" alt="Preview" class="preview-image" />
+          <div *ngIf="previewImage" class="image-preview-container">
+            <img [src]="previewImage" alt="Preview" class="preview-image" />
             <button mat-raised-button color="warn" type="button" (click)="removeImage()">Remove Image</button>
           </div>
           <div *ngIf="!previewImage">
